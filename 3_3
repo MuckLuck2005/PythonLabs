@@ -1,0 +1,14 @@
+def count_letters_in_each_word(sentence):
+    words = sentence.split()  
+    letter_counts = {}  
+
+    for word in words:
+        letter_counts[word] = len(word)
+
+    return letter_counts
+
+sentence = input("Введіть речення: ")
+result = count_letters_in_each_word(sentence)
+print("Кількість літер у кожному слові:")
+for word, count in result.items():
+    print(f"{word}: {count}")
