@@ -1,0 +1,22 @@
+def separate_digits_letters(lst):
+    digits = []
+    letters = []
+
+    for item in lst:
+        if isinstance(item, int) or item.isdigit():
+            digits.append(item)
+        elif isinstance(item, str) and item.isalpha():
+            letters.append(item)
+
+    return digits, letters
+
+def operation_and_print():
+    user_input = input("Введіть елементи списку, розділені пробілами: ")
+    user_list = user_input.split()
+
+    digits, letters = separate_digits_letters(user_list)
+
+    print("Список цифр:", digits)
+    print("Список літер:", letters)
+
+operation_and_print()
