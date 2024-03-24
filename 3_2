@@ -1,0 +1,18 @@
+def separate_vowels_consonants(word):
+    vowels = ""
+    consonants = ""
+
+    for letter in word:
+        if letter.lower() in 'aeiouаеиоуяюєїі':
+            vowels += letter
+        else:
+            consonants += letter
+
+    print("Голосні:")
+    print("\n".join(vowels))
+    print("Приголосні:")
+    print("\n".join(consonants))
+
+word = input("Введіть слово: ")
+print("Результат:")
+separate_vowels_consonants(word)
