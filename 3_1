@@ -1,0 +1,9 @@
+def get_every_second_char_from_fifth_to_middle(word):
+    start_index = 4  
+    end_index = len(word) // 2  
+    result = word[start_index:end_index:2] 
+    return result
+
+word = input("Введіть слово: ")
+result = get_every_second_char_from_fifth_to_middle(word)
+print("Результат:", result)
