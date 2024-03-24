@@ -1,0 +1,16 @@
+def replace_negative_with_zero(lst):
+    for i in range(len(lst)):
+        if lst[i] < 0:
+            lst[i] = 0
+
+    return lst
+
+def operation_and_print():
+    user_input = input("Введіть елементи списку, розділені пробілами: ")
+    user_list = list(map(int, user_input.split()))
+
+    updated_list = replace_negative_with_zero(user_list)
+
+    print("Оновлений список:", updated_list)
+
+operation_and_print()
