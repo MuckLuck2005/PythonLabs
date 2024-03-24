@@ -1,0 +1,19 @@
+def count_vowels(text):
+    vowels = {'a', 'e', 'i', 'o', 'u', 'y'}
+    vowel_count = 0
+
+    for char in text:
+        if char.lower() in vowels:
+            vowel_count += 1
+
+    return vowel_count
+
+def perform_operation_and_print():
+    user_input = input("Введіть текст: ")
+    try:
+        result = count_vowels(user_input)
+        print("Кількість голосних літер:", result)
+    except TypeError:
+        print("Помилка: операція над множинами неможлива.")
+
+perform_operation_and_print()
