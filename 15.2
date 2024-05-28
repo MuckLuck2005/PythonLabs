@@ -1,0 +1,23 @@
+import pandas as pd
+
+# Завантаження даних з CSV-файлу
+url = "http://donnees.ville.montreal.qc.ca/dataset/f3f01b9e-637f-48d8-80c0-159526d3536b/resource/2f3e1092-09be-4de5-a674-a083e027cf37/download/comptagevelo2010.csv"
+df = pd.read_csv(url)
+
+# Виведення перших рядків для перевірки коректності завантаження
+print("Перші рядки датафрейму:")
+print(df.head())
+
+# Перетворення стовпця 'Date' у формат дати
+df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d %H:%M:%S')
+
+# Додавання стовпця з місяцем
+df['Month'] = df['Date'].dt.month
+
+# Групування за місяцями та підрахунок загальної кількості велосипедистів
+monthly_usage = df.groupby('Month')['Date'].count()
+
+# Знаходження місяця з найбільшою кількістю велосипедистів
+most_popular_month = monthly_usage.idxmax()
+
+print("\nНайбільш популярний місяць у велосипедистів:", most_popular_month)
