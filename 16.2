@@ -1,0 +1,40 @@
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+import string
+
+# Завантаження NLTK даних
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+# Вхідний текст
+input_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a libero non lacus dictum aliquam. Ut gravida mauris vitae dolor euismod, at cursus ligula dictum. Proin non nisl leo. Nam nec turpis ut eros efficitur sollicitudin nec a dui. Vivamus auctor vestibulum tempor. Donec ultrices orci quis augue pellentesque, eget egestas magna vehicula. Nulla et elit vitae elit lobortis facilisis. In hac habitasse platea dictumst. Suspendisse potenti. Maecenas dictum gravida urna ut scelerisque. Fusce placerat volutpat mi, sit amet condimentum nunc pharetra nec. Nunc convallis dui eu mauris rhoncus, ut vulputate justo elementum. Donec ut mi non tortor scelerisque condimentum. Nulla euismod felis ac turpis scelerisque, vitae suscipit libero auctor. Phasellus eleifend nisl eu magna vehicula, nec placerat elit gravida."
+
+# Токенізація по словам
+tokens = word_tokenize(input_text)
+
+# Лемматизація
+lemmatizer = WordNetLemmatizer()
+lemmatized_tokens = [lemmatizer.lemmatize(token) for token in tokens]
+
+# Стемінг
+stemmer = PorterStemmer()
+stemmed_tokens = [stemmer.stem(token) for token in tokens]
+
+# Видалення стоп-слів
+stop_words = set(stopwords.words('english'))
+filtered_tokens = [token for token in lemmatized_tokens if token.lower() not in stop_words]
+
+# Видалення пунктуації
+filtered_tokens = [token for token in filtered_tokens if token not in string.punctuation]
+
+# Побудова обробленого тексту
+processed_text = ' '.join(filtered_tokens)
+
+# Запис обробленого тексту у файл
+with open("processed_text.txt", "w") as file:
+    file.write(processed_text)
+
+print("Оброблений текст був збережений у файлі 'processed_text.txt'")
