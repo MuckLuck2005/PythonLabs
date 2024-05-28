@@ -1,0 +1,35 @@
+import pandas as pd
+
+# Початковий словник з даними студентів
+students_data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Eva'],
+    'Age': [20, 21, 22, 21, 20],
+    'Math': [88, 72, 95, 70, 85],
+    'English': [90, 78, 85, 80, 88],
+    'History': [85, 80, 88, 85, 90]
+}
+
+# Перетворення словника на DataFrame
+df = pd.DataFrame(students_data)
+print("Початковий DataFrame:")
+print(df)
+
+# Додавання нового студента до DataFrame
+new_student = {'Name': 'Frank', 'Age': 23, 'Math': 78, 'English': 85, 'History': 80}
+df = pd.concat([df, pd.DataFrame([new_student])], ignore_index=True)
+
+print("\nDataFrame після додавання нового студента:")
+print(df)
+
+# Виконання агрегації та групування даних
+# Групування за віком і обчислення середніх оцінок
+grouped_df = df.groupby('Age').mean()
+
+print("\nАгрегація та групування даних за віком:")
+print(grouped_df)
+
+# Групування за віком і підрахунок кількості студентів у кожній групі
+count_df = df.groupby('Age').size().reset_index(name='Count')
+
+print("\nКількість студентів у кожній віковій групі:")
+print(count_df)
