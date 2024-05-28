@@ -1,0 +1,14 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Побудова графіка функції Y(x) = 5*sin(x)*cos(x^2 + 1/x)^2
+x = np.linspace(1, 10, 400)
+y = 5 * np.sin(x) * np.cos(x**2 + 1/x)**2
+
+plt.plot(x, y, linestyle='-', color='blue', linewidth=2, label='Y(x) = 5*sin(x)*cos(x^2 + 1/x)^2')
+plt.xlabel('x')
+plt.ylabel('Y(x)')
+plt.title('Графік функції Y(x) = 5*sin(x)*cos(x^2 + 1/x)^2')
+plt.legend()
+plt.grid(True)
+plt.show()
