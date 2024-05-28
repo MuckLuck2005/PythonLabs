@@ -1,0 +1,73 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import requests
+
+def fetch_data(country_code, indicator_code):
+    url = f'http://api.worldbank.org/v2/country/{country_code}/indicator/{indicator_code}?format=json&date=2000:2020&per_page=1000'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()[1]
+        df = pd.DataFrame(data)
+        df = df[['date', 'value']].dropna().sort_values(by='date')
+        df.columns = ['Year', 'Value']
+        return df
+    else:
+        print(f"Error fetching data: {response.status_code}")
+        return None
+
+def plot_time_series(ukraine_data, us_data):
+    plt.plot(ukraine_data['Year'], ukraine_data['Value'], label='Україна', linestyle='-', marker='o')
+    plt.plot(us_data['Year'], us_data['Value'], label='США', linestyle='-', marker='x')
+    plt.xlabel('Рік')
+    plt.ylabel('Діти поза школою, початкова освіта')
+    plt.title('Динаміка показника "Children out of school, primary"')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+def plot_bar_chart(data, country):
+    plt.bar(data['Year'], data['Value'], label=country, color='skyblue')
+    plt.xlabel('Рік')
+    plt.ylabel('Діти поза школою, початкова освіта')
+    plt.title(f'Стовпчаста діаграма показника для {country}')
+    plt.xticks(rotation=45)
+    plt.show()
+
+def main():
+    ukraine_code = 'UKR'
+    us_code = 'USA'
+    indicator_code = 'SE.PRM.UNER'
+
+    print("Отримання даних для України...")
+    ukraine_data = fetch_data(ukraine_code, indicator_code)
+    print("Отримання даних для США...")
+    us_data = fetch_data(us_code, indicator_code)
+
+    if ukraine_data is not None and us_data is not None:
+        while True:
+            print("\nМеню:")
+            print("1. Побудувати графік динаміки показника для двох країн")
+            print("2. Побудувати стовпчасту діаграму для обраної країни")
+            print("3. Вихід")
+
+            choice = input("Виберіть опцію: ")
+
+            if choice == '1':
+                plot_time_series(ukraine_data, us_data)
+            elif choice == '2':
+                country = input("Введіть назву країни (Україна або США): ")
+                if country.lower() == 'україна':
+                    plot_bar_chart(ukraine_data, 'Україна')
+                elif country.lower() == 'сша':
+                    plot_bar_chart(us_data, 'США')
+                else:
+                    print("Неправильна назва країни, спробуйте ще раз.")
+            elif choice == '3':
+                break
+            else:
+                print("Неправильний вибір, спробуйте ще раз.")
+    else:
+        print("Помилка при отриманні даних, спробуйте пізніше.")
+
+if __name__ == "__main__":
+    main()
