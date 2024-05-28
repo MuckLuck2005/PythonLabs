@@ -1,0 +1,36 @@
+def create_file():
+    try:
+        with open('TF26_1.txt', 'w') as file:
+            file.write("Hello World!\n")
+            file.write("Python The Best\n")
+            file.write("Diachenko\n")
+    except IOError as e:
+        print(f"Помилка при створенні файлу: {e}")
+
+
+def process_file():
+    try:
+        with open('TF26_1.txt', 'r') as file:
+            lines = file.readlines()
+
+        lines_lowercase = [line.lower() for line in lines]
+
+        with open('TF26_2.txt', 'w') as file:
+            file.writelines(lines_lowercase)
+
+    except IOError as e:
+        print(f"Помилка при читанні/запису файлу: {e}")
+
+
+def read_and_print_file():
+    try:
+        with open('TF26_2.txt', 'r') as file:
+            for line in file:
+                print(line, end='')
+    except IOError as e:
+        print(f"Помилка при читанні файлу: {e}")
+
+
+create_file()
+process_file()
+read_and_print_file()
