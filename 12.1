@@ -1,0 +1,123 @@
+import json
+
+# Приклад даних про багаж пасажирів
+passenger_data = [
+    {"name": "Ivanov", "items": 3, "weight": 4.5},
+    {"name": "Petrov", "items": 1, "weight": 3.0},
+    {"name": "Sidorov", "items": 5, "weight": 10.0},
+    {"name": "Kuznetsov", "items": 2, "weight": 15.5},
+    {"name": "Smirnov", "items": 4, "weight": 25.5},
+    {"name": "Popov", "items": 3, "weight": 2.0},
+    {"name": "Sokolov", "items": 6, "weight": 30.0},
+    {"name": "Mikhailov", "items": 1, "weight": 8.0},
+    {"name": "Fedorov", "items": 3, "weight": 6.0},
+    {"name": "Nikolaev", "items": 2, "weight": 7.5}
+]
+
+# Збереження даних у файл JSON
+with open('passenger_data.json', 'w') as file:
+    json.dump(passenger_data, file)
+
+
+# Функція для виведення вмісту JSON файлу
+def display_json(filename):
+    with open(filename, 'r') as file:
+        data = json.load(file)
+        for record in data:
+            print(record)
+
+
+# Функція для додавання нового запису у JSON файл
+def add_record(filename, record):
+    with open(filename, 'r') as file:
+        data = json.load(file)
+    data.append(record)
+    with open(filename, 'w') as file:
+        json.dump(data, file, indent=4)
+
+
+# Функція для видалення запису з JSON файлу
+def delete_record(filename, name):
+    with open(filename, 'r') as file:
+        data = json.load(file)
+    data = [record for record in data if record['name'] != name]
+    with open(filename, 'w') as file:
+        json.dump(data, file, indent=4)
+
+
+# Функція для пошуку даних у JSON файлі за ім'ям пасажира
+def search_record(filename, name):
+    with open(filename, 'r') as file:
+        data = json.load(file)
+    for record in data:
+        if record['name'] == name:
+            return record
+    return None
+
+
+# Функція для виконання специфічних завдань
+def process_data(filename, output_filename):
+    with open(filename, 'r') as file:
+        data = json.load(file)
+
+    # Завдання а) прізвища пасажирів, які мають більше двох речей
+    passengers_more_than_two_items = [record['name'] for record in data if record['items'] > 2]
+
+    # Завдання б) кількість пасажирів за вагою багажу
+    weight_categories = {
+        "less_than_5kg": len([record for record in data if record['weight'] < 5]),
+        "between_5_and_25kg": len([record for record in data if 5 <= record['weight'] <= 25]),
+        "more_than_25kg": len([record for record in data if record['weight'] > 25])
+    }
+
+    result = {
+        "passengers_more_than_two_items": passengers_more_than_two_items,
+        "weight_categories": weight_categories
+    }
+
+    # Запис результатів у новий JSON файл
+    with open(output_filename, 'w') as file:
+        json.dump(result, file, indent=4)
+
+
+# Діалоговий режим
+def main():
+    while True:
+        print("\nМеню:")
+        print("1. Вивести вміст JSON файлу")
+        print("2. Додати новий запис у JSON файл")
+        print("3. Видалити запис із JSON файлу")
+        print("4. Пошук даних у JSON файлі")
+        print("5. Виконати специфічні завдання та зберегти результат")
+        print("6. Вихід")
+
+        choice = input("Виберіть опцію: ")
+
+        if choice == '1':
+            display_json('passenger_data.json')
+        elif choice == '2':
+            name = input("Введіть ім'я пасажира: ")
+            items = int(input("Введіть кількість речей: "))
+            weight = float(input("Введіть вагу багажу: "))
+            record = {"name": name, "items": items, "weight": weight}
+            add_record('passenger_data.json', record)
+        elif choice == '3':
+            name = input("Введіть ім'я пасажира для видалення: ")
+            delete_record('passenger_data.json', name)
+        elif choice == '4':
+            name = input("Введіть ім'я пасажира для пошуку: ")
+            record = search_record('passenger_data.json', name)
+            if record:
+                print(record)
+            else:
+                print("Запис не знайдено")
+        elif choice == '5':
+            process_data('passenger_data.json', 'result_data.json')
+            print("Результати збережено у 'result_data.json'")
+        elif choice == '6':
+            break
+        else:
+            print("Неправильний вибір, спробуйте ще раз")
+
+
+if __name__ == "__main__":
