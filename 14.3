@@ -1,0 +1,17 @@
+import matplotlib.pyplot as plt
+
+def plot_pie_chart():
+    # Дані для кругової діаграми
+    labels = ['Дівчата', 'Хлопці']
+    sizes = [45, 55]  # Відсоток дівчат та хлопців
+    colors = ['#ff9999','#66b3ff']  # Кольори для секторів
+    explode = (0.1, 0)  # Відокремимо сектор дівчат
+
+    plt.figure(figsize=(8, 8))
+    plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+    plt.title('Відсоток дівчат та хлопців у класі')
+    plt.axis('equal')  # Ensure pie chart is drawn as a circle
+    plt.show()
+
+if __name__ == "__main__":
+    plot_pie_chart()
